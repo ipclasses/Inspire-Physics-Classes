@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INSPIRE PHYSICS CLASSES</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f1f5f9;color:#1e293b}
+header{background:#123b70;color:white;padding:22px 12px;text-align:center}
+header h1{font-size:24px} header p{margin-top:7px;font-size:14px}
+.container{max-width:900px;margin:25px auto;padding:15px}
+.card{background:white;padding:24px;border-radius:12px;box-shadow:0 2px 10px #00000010;margin-bottom:20px}
+h2{color:#123b70;margin-bottom:15px}
+input{width:100%;max-width:350px;padding:13px;margin:15px 0;border:1px solid #cbd5e1;border-radius:7px;font-size:16px}
+button{background:#123b70;color:white;border:none;padding:12px 20px;border-radius:7px;font-size:15px;cursor:pointer}
+button:hover{opacity:.9} button:disabled{cursor:not-allowed;opacity:.45}
+.hidden{display:none!important}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.subject{background:white;padding:28px 15px;text-align:center;border-radius:12px;cursor:pointer;box-shadow:0 2px 10px #00000010}
+.subject h3{color:#123b70;margin-bottom:10px}.subject:hover{background:#e8f1ff}
+.dashboard-heading{background:white;padding:22px;border-radius:12px;margin-bottom:20px}
+.dashboard-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.dashboard-actions button{flex:1;min-width:160px}
+.chapter-btn{display:block;width:100%;margin:10px 0;text-align:left;background:#e8f1ff;color:#123b70}
+.test-info{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.progress-track{height:9px;background:#e2e8f0;border-radius:20px;margin-bottom:25px;overflow:hidden}
+.progress-fill{height:100%;background:#2563eb;transition:width .2s}
+.question{font-size:20px;font-weight:bold;line-height:1.5;margin-bottom:22px}
+.option{display:block;width:100%;background:white;color:#1e293b;text-align:left;border:1px solid #cbd5e1;padding:15px;margin:12px 0;border-radius:8px;font-size:16px}
+.option:not(:disabled):hover{background:#eff6ff}
+.option.correct{background:#dcfce7;border:2px solid #16a34a;color:#166534}
+.option.wrong{background:#fee2e2;border:2px solid #dc2626;color:#991b1b}
+.feedback{padding:14px;border-radius:8px;margin-top:18px;font-weight:bold;line-height:1.6}
+.feedback.correct-feedback{background:#dcfce7;color:#166534}
+.feedback.wrong-feedback{background:#fee2e2;color:#991b1b}
+.explanation-btn{width:100%;margin-top:18px;background:#475569}
+.explanation{background:#eff6ff;border-left:4px solid #2563eb;padding:16px;margin-top:12px;border-radius:6px;line-height:1.7}
+.test-buttons{display:flex;justify-content:space-between;gap:10px;margin-top:25px}
+.result-score{font-size:38px;font-weight:bold;color:#123b70;margin:20px 0}
+.result-row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e2e8f0}
+.back-btn{background:#64748b;margin-top:15px}
+.history-item{border:1px solid #e2e8f0;border-radius:9px;padding:16px;margin:12px 0}
+.history-item h3{color:#123b70;margin-bottom:8px}
+.history-meta{color:#64748b;font-size:13px;line-height:1.6;margin:5px 0 12px}
+.history-item button{margin:4px 5px 0 0}
+.empty-message{padding:20px;text-align:center;color:#64748b;background:#f8fafc;border-radius:8px}
+footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
+@media(max-width:500px){
+ header h1{font-size:20px}.subjects{grid-template-columns:1fr}.card{padding:18px}
+ .question{font-size:18px}.test-buttons button{padding:11px 12px}
+ .dashboard-actions{flex-direction:column}.dashboard-actions button{width:100%}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>INSPIRE PHYSICS CLASSES</h1>
+<p>Offline Test &amp; Practice Application</p>
+</header>
+
+<div class="container">
+<!-- LOGIN -->
+<div id="loginBox" class="card" style="text-align:center">
+<h2>Welcome Student!</h2><p>Create Your Username</p>
+<input id="username" type="text" placeholder="Enter Your Name" maxlength="30">
+<br><button onclick="login()">Continue</button>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+<div class="dashboard-heading">
+<h2 id="welcomeText"></h2>
+<p>Select Your Subject and Start Learning.</p>
+<div class="dashboard-actions">
+<button onclick="openProgress()">📊 My Progress &amp; Test History</button>
+</div>
+</div>
+<div class="subjects">
+<div class="subject" onclick="openSubject('Physics')"><h3>⚛️ Physics</h3><p>View Chapters</p></div>
+<div class="subject" onclick="openSubject('Reasoning')"><h3>🧠 Reasoning</h3><p>View Chapters</p></div>
+<div class="subject" onclick="openSubject('Mathematics')"><h3>📐 Mathematics</h3><p>View Chapters</p></div>
+<div class="subject" onclick="openSubject('General Awareness')"><h3>🌍 General Awareness</h3><p>View Chapters</p></div>
+</div>
+</div>
+
+<!-- PROGRESS / HISTORY -->
+<div id="progressBox" class="card hidden">
+<h2>📊 My Progress &amp; Test History</h2>
+<div class="result-row"><span>Total Tests Attempted</span><strong id="historyTotal">0</strong></div>
+<div class="result-row"><span>Total Questions Attempted</span><strong id="historyQuestions">0</strong></div>
+<div class="result-row"><span>Overall Correct Answers</span><strong id="historyCorrect" style="color:green">0</strong></div>
+<div class="result-row"><span>Overall Wrong Answers</span><strong id="historyWrong" style="color:red">0</strong></div>
+<div class="result-row"><span>Average Percentage</span><strong id="historyAverage">0%</strong></div>
+<br><h2>Previous Tests</h2>
+<div id="historyList"></div>
+<button class="back-btn" onclick="backToDashboard()">Back to Dashboard</button>
+</div>
+
+<!-- CHAPTERS -->
+<div id="chapterBox" class="card hidden">
+<h2 id="subjectTitle"></h2><p>Select Your Chapter</p><br>
+<div id="chapterList"></div>
+<button class="back-btn" onclick="backToSubjects()">Back to Subjects</button>
+</div>
+
+<!-- TEST SCREEN -->
+<div id="testBox" class="card hidden">
+<h2 id="testTitle"></h2>
+<div class="test-info"><strong id="questionCount"></strong><strong id="answeredCount"></strong></div>
+<div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+<div id="questionText" class="question"></div>
+<div id="optionsBox"></div>
+<div id="feedbackBox" class="feedback hidden"></div>
+<button id="explanationBtn" class="explanation-btn hidden" onclick="toggleExplanation()">📖 Show Answer &amp; Explanation</button>
+<div id="explanationBox" class="explanation hidden"></div>
+<div class="test-buttons">
+<button id="previousBtn" onclick="previousQuestion()">Previous</button>
+<button id="nextBtn" onclick="nextQuestion()">Next</button>
+<button id="submitBtn" onclick="submitTest()" style="background:#15803d">Submit</button>
+</div>
+</div>
+
+<!-- RESULT -->
+<div id="resultBox" class="card hidden" style="text-align:center">
+<h2>Test Result</h2><p id="resultTitle"></p>
+<div id="scoreText" class="result-score"></div>
+<div class="result-row"><span>Total Questions</span><strong id="totalQuestions"></strong></div>
+<div class="result-row"><span>Correct Answers</span><strong id="correctAnswers" style="color:green"></strong></div>
+<div class="result-row"><span>Wrong Answers</span><strong id="wrongAnswers" style="color:red"></strong></div>
+<div class="result-row"><span>Not Attempted</span><strong id="skippedAnswers"></strong></div>
+<div class="result-row"><span>Percentage</span><strong id="percentage"></strong></div>
+<br><button onclick="restartTest()">Retake Test</button>
+<br><br><button class="back-btn" onclick="backToDashboard()">Dashboard</button>
+</div>
+
+<!-- HISTORY DETAIL -->
+<div id="historyDetailBox" class="card hidden">
+<h2>Previous Test Result</h2>
+<p id="historyDetailTitle"></p>
+<div class="result-score" id="historyDetailScore"></div>
+<div class="result-row"><span>Total Questions</span><strong id="historyDetailTotal"></strong></div>
+<div class="result-row"><span>Correct Answers</span><strong id="historyDetailCorrect" style="color:green"></strong></div>
+<div class="result-row"><span>Wrong Answers</span><strong id="historyDetailWrong" style="color:red"></strong></div>
+<div class="result-row"><span>Not Attempted</span><strong id="historyDetailSkipped"></strong></div>
+<div class="result-row"><span>Percentage</span><strong id="historyDetailPercentage"></strong></div>
+<div class="result-row"><span>Date &amp; Time</span><strong id="historyDetailDate"></strong></div>
+<button class="back-btn" onclick="openProgress()">Back to History</button>
+</div>
+</div>
+
+<footer>INSPIRE PHYSICS CLASSES<br>Offline Learning Application</footer>
+
+<script>
+/* LOGIN */
+function login(){
+ const name=document.getElementById("username").value.trim();
+ if(!name){alert("Please Enter Your Username");return;}
+ localStorage.setItem("inspire_username",name);
+ showDashboard(name);
+}
+function showDashboard(name){
+ hideAll();
+ document.getElementById("dashboard").classList.remove("hidden");
+ document.getElementById("welcomeText").innerText="Welcome, "+name+"!";
+}
+
+/* CHAPTERS */
+const chapters={
+ "Physics":["Units and Measurements","Motion","Laws of Motion","Work and Energy","Rotational Motion","Gravitation","Thermodynamics","Waves"],
+ "Reasoning":["Analogy","Number Series","Coding Decoding","Blood Relations","Direction Test","Classification","Alphabet Test","Syllogism"],
+ "Mathematics":["Percentage","Ratio and Proportion","Profit and Loss","Simple Interest","Compound Interest","Time and Work","Average","Number System"],
+ "General Awareness":["Indian History","Indian Geography","Indian Constitution","General Science","Indian Economy","World Geography","International Organisations","Current Affairs"]
+};
+
+/* QUESTION BANK */
+const questionBank={
+ "Physics|Motion":[
+  {question:"What is the SI unit of velocity?",options:["Meter","Meter per second","Kilogram","Second"],answer:1,explanation:"The SI unit of velocity is meter per second (m/s). Velocity is displacement per unit time."},
+  {question:"Which of the following is a scalar quantity?",options:["Velocity","Displacement","Speed","Acceleration"],answer:2,explanation:"Speed has magnitude only and no direction. Therefore, speed is a scalar quantity."},
+  {question:"What is the SI unit of acceleration?",options:["m/s","m/s²","km/h","m²/s"],answer:1,explanation:"Acceleration is the rate of change of velocity. Its SI unit is metre per second squared (m/s²)."},
+  {question:"The slope of a velocity-time graph represents:",options:["Distance","Speed","Acceleration","Displacement"],answer:2,explanation:"The slope of a velocity-time graph is change in velocity divided by time. Hence, it represents acceleration."},
+  {question:"Which equation represents final velocity?",options:["v = u + at","s = vt","F = ma","P = W/t"],answer:0,explanation:"The first equation of motion is v = u + at, where u is initial velocity, a is acceleration and t is time."}
+ ]
+};
+
+/* TEST VARIABLES */
+let currentSubject="",currentChapter="",testQuestions=[],currentQuestion=0,userAnswers=[];
+
+function openSubject(subject){
+ hideAll();currentSubject=subject;
+ document.getElementById("chapterBox").classList.remove("hidden");
+ document.getElementById("subjectTitle").innerText=subject+" Chapters";
+ const list=document.getElementById("chapterList");list.innerHTML="";
+ chapters[subject].forEach(chapter=>{
+  const btn=document.createElement("button");
+  btn.innerText=chapter;btn.className="chapter-btn";
+  btn.onclick=()=>startTest(subject,chapter);
+  list.appendChild(btn);
+ });
+}
+
+/* START TEST */
+function startTest(subject,chapter){
+ const key=subject+"|"+chapter;
+ if(!questionBank[key]){alert("Questions for this chapter will be added soon!");return;}
+ currentSubject=subject;currentChapter=chapter;
+ testQuestions=questionBank[key];currentQuestion=0;
+ userAnswers=new Array(testQuestions.length).fill(null);
+ hideAll();document.getElementById("testBox").classList.remove("hidden");
+ document.getElementById("testTitle").innerText=subject+" - "+chapter;
+ showQuestion();
+}
+
+/* DISPLAY QUESTION */
+function showQuestion(){
+ const q=testQuestions[currentQuestion];
+ document.getElementById("questionCount").innerText="Question "+(currentQuestion+1)+" / "+testQuestions.length;
+ const answered=userAnswers.filter(a=>a!==null).length;
+ document.getElementById("answeredCount").innerText="Answered: "+answered;
+ document.getElementById("progressFill").style.width=((currentQuestion+1)/testQuestions.length*100)+"%";
+ document.getElementById("questionText").innerText=q.question;
+ const optionsBox=document.getElementById("optionsBox");optionsBox.innerHTML="";
+ const selected=userAnswers[currentQuestion];
+ q.options.forEach((option,index)=>{
+  const btn=document.createElement("button");btn.className="option";
+  btn.innerText=String.fromCharCode(65+index)+". "+option;
+  if(selected!==null){
+   btn.disabled=true;
+   if(index===q.answer)btn.classList.add("correct");
+   if(index===selected&&selected!==q.answer)btn.classList.add("wrong");
+  }
+  btn.onclick=()=>selectAnswer(index);optionsBox.appendChild(btn);
+ });
+ const feedback=document.getElementById("feedbackBox");
+ const explanationBtn=document.getElementById("explanationBtn");
+ const explanationBox=document.getElementById("explanationBox");
+ explanationBox.classList.add("hidden");
+ explanationBtn.innerText="📖 Show Answer & Explanation";
+ if(selected!==null){
+  if(selected===q.answer){feedback.innerText="✓ Correct Answer! Very Good.";feedback.className="feedback correct-feedback";}
+  else{feedback.innerText="✗ Wrong Answer! Correct Answer: "+String.fromCharCode(65+q.answer)+". "+q.options[q.answer];feedback.className="feedback wrong-feedback";}
+  explanationBtn.classList.remove("hidden");
+ }else{feedback.className="feedback hidden";explanationBtn.classList.add("hidden");}
+ document.getElementById("previousBtn").disabled=currentQuestion===0;
+ document.getElementById("nextBtn").disabled=currentQuestion===testQuestions.length-1;
+}
+function selectAnswer(index){
+ if(userAnswers[currentQuestion]!==null)return;
+ userAnswers[currentQuestion]=index;showQuestion();
+}
+function toggleExplanation(){
+ const box=document.getElementById("explanationBox"),btn=document.getElementById("explanationBtn"),q=testQuestions[currentQuestion];
+ if(box.classList.contains("hidden")){
+  box.innerHTML="<strong>Correct Answer: "+String.fromCharCode(65+q.answer)+". "+q.options[q.answer]+"</strong><br><br><strong>Explanation:</strong><br>"+q.explanation;
+  box.classList.remove("hidden");btn.innerText="Hide Explanation";
+ }else{box.classList.add("hidden");btn.innerText="📖 Show Answer & Explanation";}
+}
+function nextQuestion(){if(currentQuestion<testQuestions.length-1){currentQuestion++;showQuestion();}}
+function previousQuestion(){if(currentQuestion>0){currentQuestion--;showQuestion();}}
+
+/* SUBMIT AND RESULT */
+function submitTest(){
+ const unanswered=userAnswers.filter(a=>a===null).length;
+ if(unanswered>0){if(!confirm("You have "+unanswered+" unanswered questions. Submit Test?"))return;}
+ else if(!confirm("Are you sure you want to submit the test?"))return;
+ calculateResult();
+}
+function calculateResult(){
+ let correct=0,wrong=0,skipped=0;
+ testQuestions.forEach((q,i)=>{
+  if(userAnswers[i]===null)skipped++;
+  else if(userAnswers[i]===q.answer)correct++;
+  else wrong++;
+ });
+ const total=testQuestions.length,percentage=correct/total*100;
+ document.getElementById("resultTitle").innerText=currentSubject+" - "+currentChapter;
+ document.getElementById("scoreText").innerText=correct+" / "+total;
+ document.getElementById("totalQuestions").innerText=total;
+ document.getElementById("correctAnswers").innerText=correct;
+ document.getElementById("wrongAnswers").innerText=wrong;
+ document.getElementById("skippedAnswers").innerText=skipped;
+ document.getElementById("percentage").innerText=percentage.toFixed(2)+"%";
+ saveResult(correct,wrong,skipped,percentage);
+ hideAll();document.getElementById("resultBox").classList.remove("hidden");
+}
+
+/* SAVE TEST HISTORY */
+function getHistory(){
+ try{return JSON.parse(localStorage.getItem("inspire_history")||"[]");}
+ catch(error){return [];}
+}
+function saveResult(correct,wrong,skipped,percentage){
+ const history=getHistory();
+ history.push({
+  subject:currentSubject,chapter:currentChapter,total:testQuestions.length,
+  correct:correct,wrong:wrong,skipped:skipped,percentage:percentage,
+  date:new Date().toLocaleString()
+ });
+ localStorage.setItem("inspire_history",JSON.stringify(history));
+}
+
+/* MY PROGRESS AND HISTORY */
+function openProgress(){
+ hideAll();
+ document.getElementById("progressBox").classList.remove("hidden");
+ const history=getHistory();
+ const tests=history.length;
+ const totalQuestions=history.reduce((sum,item)=>sum+(Number(item.total)||0),0);
+ const correct=history.reduce((sum,item)=>sum+(Number(item.correct)||0),0);
+ const wrong=history.reduce((sum,item)=>sum+(Number(item.wrong)||0),0);
+ const average=tests?history.reduce((sum,item)=>sum+(Number(item.percentage)||0),0)/tests:0;
+ document.getElementById("historyTotal").innerText=tests;
+ document.getElementById("historyQuestions").innerText=totalQuestions;
+ document.getElementById("historyCorrect").innerText=correct;
+ document.getElementById("historyWrong").innerText=wrong;
+ document.getElementById("historyAverage").innerText=average.toFixed(2)+"%";
+ const list=document.getElementById("historyList");list.innerHTML="";
+ if(history.length===0){
+  list.innerHTML='<div class="empty-message">Abhi tak koi test complete nahi hua hai.</div>';
+  return;
+ }
+ history.slice().reverse().forEach((item,reverseIndex)=>{
+  const originalIndex=history.length-1-reverseIndex;
+  const div=document.createElement("div");div.className="history-item";
+  const heading=document.createElement("h3");
+  heading.innerText=item.subject+" - "+item.chapter;
+  const meta=document.createElement("div");meta.className="history-meta";
+  meta.innerText="Date: "+item.date+" | Score: "+item.correct+"/"+item.total+" | Percentage: "+Number(item.percentage).toFixed(2)+"%";
+  const detailBtn=document.createElement("button");detailBtn.innerText="View Result";
+  detailBtn.onclick=()=>viewHistoryResult(originalIndex);
+  div.append(heading,meta,detailBtn);list.appendChild(div);
+ });
+}
+function viewHistoryResult(index){
+ const item=getHistory()[index];if(!item)return;
+ hideAll();document.getElementById("historyDetailBox").classList.remove("hidden");
+ document.getElementById("historyDetailTitle").innerText=item.subject+" - "+item.chapter;
+ document.getElementById("historyDetailScore").innerText=item.correct+" / "+item.total;
+ document.getElementById("historyDetailTotal").innerText=item.total;
+ document.getElementById("historyDetailCorrect").innerText=item.correct;
+ document.getElementById("historyDetailWrong").innerText=item.wrong;
+ document.getElementById("historyDetailSkipped").innerText=item.skipped;
+ document.getElementById("historyDetailPercentage").innerText=Number(item.percentage).toFixed(2)+"%";
+ document.getElementById("historyDetailDate").innerText=item.date;
+}
+
+/* NAVIGATION */
+function restartTest(){startTest(currentSubject,currentChapter);}
+function backToSubjects(){showDashboard(localStorage.getItem("inspire_username"));}
+function backToDashboard(){showDashboard(localStorage.getItem("inspire_username"));}
+function hideAll(){
+ ["loginBox","dashboard","progressBox","chapterBox","testBox","resultBox","historyDetailBox"].forEach(id=>{
+  document.getElementById(id).classList.add("hidden");
+ });
+}
+window.onload=function(){
+ const savedName=localStorage.getItem("inspire_username");
+ if(savedName)showDashboard(savedName);
+};
+</script>
+</body>
+</html>
