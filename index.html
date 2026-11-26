@@ -4,70 +4,134 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>INSPIRE PHYSICS CLASSES</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"><meta name="theme-color" content="#171923">
 <style>
+:root{--ink:#171923;--ink2:#2b2f3e;--muted:#6b7082;--line:#e4e7ef;--bg:#f4f5fa;--card:#fff;--brand:#ec3b13;--brand-d:#c82e0b;--brand-t:#fff0eb;--sun:#ffd21a;--ok:#12805c;--okbg:#e3f6ee;--bad:#c0262d;--badbg:#fde8e8;--r:16px;--r2:10px;--font:"Plus Jakarta Sans","Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{min-height:100%;width:100%}
-body{min-height:100vh;display:flex;flex-direction:column;font-family:Arial,sans-serif;background:#fff;color:#1e293b}
-header{background:linear-gradient(90deg,#e93412,#ff5a00);color:#fff;padding:3px 8px;box-shadow:0 2px 7px #00000020}
-.header-inner{width:100%;margin:auto;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.brand-logo{width:40px;height:30px;object-fit:contain;background:#fff;border-radius:3px;padding:1px;flex-shrink:0}
-.brand-text{flex:1;min-width:170px;text-align:left}
-header h1{font-size:20px;letter-spacing:.2px;color:#fff000;line-height:1.2} header p{display:none}
-.user-menu{display:none;align-items:center;gap:8px;margin-left:auto}
-.user-name{background:#ffffff22;border:1px solid #ffffff66;padding:6px 10px;border-radius:18px;font-size:13px}
-.logout-btn{background:#a51b12;color:white;padding:7px 11px;border-radius:6px;font-weight:bold}
-.logout-btn:hover{background:#80140d}
-@media(max-width:600px){.header-inner{justify-content:flex-start}.brand-logo{width:40px;height:30px}.brand-text{text-align:left}header h1{font-size:17px}.user-menu{width:100%;justify-content:flex-end;margin:4px 0 2px}.user-name{font-size:12px}}
-.container{width:100%;max-width:900px;margin:18px auto;padding:15px;flex:1}
-#loginBox{max-width:610px;margin:0 auto 20px;padding:20px 24px;border:1px solid #e4edf5;box-shadow:0 2px 7px #173b5b18;border-radius:13px}
-#loginBox h2{font-size:20px}
-#loginBox input{margin:10px 0}
-#loginBox button{margin-top:0;background:#123b70}
-.card{background:white;padding:24px;border-radius:12px;box-shadow:0 2px 10px #00000010;margin-bottom:20px}
-h2{color:#123b70;margin-bottom:15px}
-input{width:100%;max-width:350px;padding:13px;margin:15px 0;border:1px solid #cbd5e1;border-radius:7px;font-size:16px}
-button{background:#123b70;color:white;border:none;padding:12px 20px;border-radius:7px;font-size:15px;cursor:pointer}
-button:hover{opacity:.9} button:disabled{cursor:not-allowed;opacity:.45}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100vh;display:flex;flex-direction:column;font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
 .hidden{display:none!important}
-.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
-.subject{background:white;padding:28px 15px;text-align:center;border-radius:12px;cursor:pointer;box-shadow:0 2px 10px #00000010}
-.subject h3{color:#123b70;margin-bottom:10px}.subject:hover{background:#e8f1ff}
-.dashboard-heading{background:white;padding:22px;border-radius:12px;margin-bottom:20px}
-.dashboard-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.dashboard-actions button{flex:1;min-width:160px}
-.chapter-btn{display:block;width:100%;margin:10px 0;text-align:left;background:#e8f1ff;color:#123b70}
-.test-info{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px}
-.progress-track{height:9px;background:#e2e8f0;border-radius:20px;margin-bottom:25px;overflow:hidden}
-.progress-fill{height:100%;background:#2563eb;transition:width .2s}
-.question{font-size:20px;font-weight:bold;line-height:1.5;margin-bottom:22px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff;padding:10px 16px;border-bottom:3px solid var(--brand)}
+.header-inner{max-width:900px;margin:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.brand-logo{width:46px;height:36px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;flex-shrink:0}
+.brand-text{flex:1;min-width:150px}
+header h1{font-size:18px;font-weight:800;letter-spacing:.2px;color:var(--sun);line-height:1.2}
+header p{display:none}
+.user-menu{display:none;align-items:center;gap:10px;margin-left:auto}
+.user-name{background:#ffffff14;border:1px solid #ffffff2e;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.logout-btn{background:transparent!important;color:#fff!important;border:1px solid #ffffff55!important;padding:7px 14px!important;border-radius:999px!important;font-size:13px!important;font-weight:600}
+.logout-btn:hover{background:#ffffff1f!important}
+@media(max-width:560px){header h1{font-size:15px}.user-menu{width:100%;justify-content:space-between;margin:2px 0 0}}
+
+/* layout */
+.container{width:100%;max-width:900px;margin:0 auto;padding:22px 16px 32px;flex:1}
+.card{background:var(--card);padding:26px;border-radius:var(--r);border:1px solid var(--line);box-shadow:0 1px 2px #171e3a0d,0 8px 24px #171e3a0a;margin-bottom:20px}
+h2{color:var(--ink);font-size:22px;font-weight:800;letter-spacing:-.2px;margin-bottom:6px}
+.card>p{color:var(--muted)}
+
+/* controls */
+input{width:100%;max-width:360px;padding:14px 16px;margin:14px 0;border:1.5px solid var(--line);border-radius:var(--r2);font:inherit;font-size:16px;background:#fff;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 4px #ec3b131f}
+button{font:inherit;font-size:15px;font-weight:700;background:var(--brand);color:#fff;border:none;padding:13px 22px;border-radius:var(--r2);cursor:pointer;transition:background .15s,transform .1s}
+button:hover{background:var(--brand-d)}
+button:active{transform:scale(.98)}
+button:disabled{cursor:not-allowed;opacity:.4}
+.back-btn{background:#fff;color:var(--ink2);border:1.5px solid var(--line);margin-top:18px}
+.back-btn:hover{background:var(--bg)}
+
+/* login */
+#loginBox{max-width:520px;margin:28px auto 20px;padding:34px 28px;text-align:center}
+#loginBox h2{font-size:26px}
+#loginBox input{display:block;margin:18px auto}
+#loginBox br{display:none}
+
+/* dashboard */
+.dashboard-heading{background:var(--brand);color:#fff;padding:28px;border-radius:var(--r);margin-bottom:18px;border-bottom:5px solid var(--sun)}
+.dashboard-heading h2{color:#fff;font-size:28px;margin-bottom:6px}
+.dashboard-heading p{color:#fff;opacity:.92}
+.dashboard-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.dashboard-actions button{background:#fff;color:var(--brand-d);flex:0 0 auto}
+.dashboard-actions button:hover{background:var(--brand-t)}
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.subject{display:flex;align-items:center;gap:16px;background:var(--card);padding:20px;border-radius:var(--r);border:1px solid var(--line);cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.subject:hover{border-color:var(--brand);box-shadow:0 6px 18px #ec3b131a}
+.subject .ico{display:grid;place-items:center;width:54px;height:54px;border-radius:14px;font-size:26px;flex-shrink:0;background:var(--brand-t)}
+.subject:nth-child(2) .ico{background:#efeafe}.subject:nth-child(3) .ico{background:#e6f0ff}.subject:nth-child(4) .ico{background:#e3f6ee}
+.subject h3{font-size:17px;font-weight:800;color:var(--ink);line-height:1.25}
+.subject p{font-size:13px;color:var(--muted)}
+
+/* chapters */
+#chapterList{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.chapter-btn{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1.5px solid var(--line);padding:15px 16px;font-weight:600}
+.chapter-btn:hover{background:var(--brand-t);border-color:var(--brand)}
+#chapterBox br{display:none}
+
+/* test */
+.test-info{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted);margin:10px 0 12px}
+.progress-track{height:8px;background:var(--line);border-radius:99px;margin-bottom:26px;overflow:hidden}
+.progress-fill{height:100%;background:var(--brand);border-radius:99px;transition:width .25s}
+.question{font-size:20px;font-weight:700;line-height:1.55;margin-bottom:20px;color:var(--ink)}
 .question-media,.option-media,.explanation-media{display:block;max-width:100%;margin:12px auto;text-align:center}
-.question-media img,.option-media img,.explanation-media img{max-width:100%;max-height:360px;object-fit:contain;border-radius:8px}
+.question-media img,.option-media img,.explanation-media img{max-width:100%;max-height:360px;object-fit:contain;border-radius:var(--r2)}
 .question-media svg,.option-media svg,.explanation-media svg{max-width:100%;height:auto}
-.option-content{display:block}.option-media{margin:10px 0 0;text-align:left}
-.option{display:block;width:100%;background:white;color:#1e293b;text-align:left;border:1px solid #cbd5e1;padding:15px;margin:12px 0;border-radius:8px;font-size:16px}
-.option:not(:disabled):hover{background:#eff6ff}
-.option.correct{background:#dcfce7;border:2px solid #16a34a;color:#166534}
-.option.wrong{background:#fee2e2;border:2px solid #dc2626;color:#991b1b}
-.feedback{padding:14px;border-radius:8px;margin-top:18px;font-weight:bold;line-height:1.6}
-.feedback.correct-feedback{background:#dcfce7;color:#166534}
-.feedback.wrong-feedback{background:#fee2e2;color:#991b1b}
-.explanation-btn{width:100%;margin-top:18px;background:#475569}
-.explanation{background:#eff6ff;border-left:4px solid #2563eb;padding:16px;margin-top:12px;border-radius:6px;line-height:1.7}
-.test-buttons{display:flex;justify-content:space-between;gap:10px;margin-top:25px}
-.result-score{font-size:38px;font-weight:bold;color:#123b70;margin:20px 0}
-.result-row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid #e2e8f0}
-.back-btn{background:#64748b;margin-top:15px}
-.history-item{border:1px solid #e2e8f0;border-radius:9px;padding:16px;margin:12px 0}
-.history-item h3{color:#123b70;margin-bottom:8px}
-.history-meta{color:#64748b;font-size:13px;line-height:1.6;margin:5px 0 12px}
-.history-item button{margin:4px 5px 0 0}
-.empty-message{padding:20px;text-align:center;color:#64748b;background:#f8fafc;border-radius:8px}
-footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
-@media(max-width:500px){
- header h1{font-size:20px}.subjects{grid-template-columns:1fr}.card{padding:18px}
- .question{font-size:18px}.test-buttons button{padding:11px 12px}
- .dashboard-actions{flex-direction:column}.dashboard-actions button{width:100%}
+.option{display:flex;flex-wrap:wrap;align-items:center;gap:12px;width:100%;background:#fff;color:var(--ink);text-align:left;border:1.5px solid var(--line);padding:13px 14px;margin:10px 0;border-radius:12px;font-size:16px;font-weight:500}
+.option:not(:disabled):hover{background:var(--brand-t);border-color:var(--brand)}
+.option-content{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.opt-letter{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--bg);color:var(--ink2);font-size:14px;font-weight:800;flex-shrink:0}
+.option-media{flex-basis:100%;margin:4px 0 0;text-align:left}
+.option.correct{background:var(--okbg);border:2px solid var(--ok);color:#0b5c41}
+.option.correct .opt-letter{background:var(--ok);color:#fff}
+.option.wrong{background:var(--badbg);border:2px solid var(--bad);color:#8f1c22}
+.option.wrong .opt-letter{background:var(--bad);color:#fff}
+.option:disabled:not(.correct):not(.wrong){opacity:1}
+.feedback{padding:14px 16px;border-radius:12px;margin-top:16px;font-weight:700;line-height:1.6}
+.feedback.correct-feedback{background:var(--okbg);color:#0b5c41}
+.feedback.wrong-feedback{background:var(--badbg);color:#8f1c22}
+.explanation-btn{width:100%;margin-top:14px;background:var(--ink2)}
+.explanation-btn:hover{background:var(--ink)}
+.explanation{background:#f1f4ff;border-left:4px solid #3b5bdb;padding:16px 18px;margin-top:12px;border-radius:0 12px 12px 0;line-height:1.75}
+.test-buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.test-buttons #previousBtn{background:#fff;color:var(--ink2);border:1.5px solid var(--line)}
+.test-buttons #previousBtn:hover:not(:disabled){background:var(--bg)}
+.test-buttons #submitBtn{grid-column:1/-1}
+
+/* results + history */
+.result-score{font-size:46px;font-weight:800;color:var(--brand);margin:14px 0 8px;letter-spacing:-1px}
+.result-row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line)}
+.result-row:last-of-type{border-bottom:none}
+#resultBox br,#progressBox br{display:none}
+#resultBox button{margin-top:16px}
+#progressBox h2:nth-of-type(2){margin-top:26px}
+.history-item{border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0;background:#fff}
+.history-item h3{color:var(--ink);font-size:16px;margin-bottom:4px}
+.history-meta{color:var(--muted);font-size:13px;line-height:1.6;margin:4px 0 12px}
+.history-item button{padding:9px 16px;font-size:14px}
+.empty-message{padding:22px;text-align:center;color:var(--muted);background:var(--bg);border-radius:12px}
+
+/* footer */
+.site-footer{width:100%;display:flex;align-items:center;justify-content:space-around;gap:12px;flex-wrap:wrap;padding:16px 12px;background:var(--ink);color:#fff;font-size:12px;border-top:3px solid var(--sun)}
+.site-footer a{display:flex;align-items:center;gap:6px;color:#fff;text-decoration:none;white-space:nowrap;font-weight:600}
+.site-footer a:hover{color:var(--sun)}
+.social-icon{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center;flex:0 0 20px}
+.social-icon svg{width:100%;height:100%}
+.youtube-icon{color:#ff3b30}.telegram-icon{color:#37aee2}.whatsapp-icon{color:#25d366}.facebook-icon{color:#4c8bf5}
+
+@media(max-width:560px){
+ .container{padding:16px 12px 26px}.card{padding:20px 16px}
+ .subjects,#chapterList{grid-template-columns:1fr}
+ .dashboard-heading{padding:22px 18px}.dashboard-heading h2{font-size:23px}
+ .dashboard-actions button{width:100%}
+ .question{font-size:18px}.site-footer{justify-content:space-between;font-size:11px}
 }
+.qitem{padding:22px 0;border-top:1px solid var(--line)}
+.qitem:first-child{border-top:none;padding-top:6px}
+.q-head{display:inline-block;font-size:12px;font-weight:700;color:var(--brand-d);background:var(--brand-t);padding:4px 10px;border-radius:99px;margin-bottom:12px}
+.test-buttons{margin-top:10px;padding-top:20px;border-top:2px solid var(--line)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
@@ -88,9 +152,9 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
 <div class="container">
 <!-- LOGIN -->
 <div id="loginBox" class="card" style="text-align:center">
-<h2>Welcome Student!</h2><p>Create Your Username</p>
-<input id="username" type="text" placeholder="Enter Your Name" maxlength="30">
-<br><button onclick="login()">Continue</button>
+<h2>Welcome Student!</h2><p>Enter your name to start practising.</p>
+<input id="username" type="text" placeholder="Your name" autocomplete="name" maxlength="30">
+<br><button onclick="login()">Start practising</button>
 </div>
 
 <!-- DASHBOARD -->
@@ -103,10 +167,10 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
 </div>
 </div>
 <div class="subjects">
-<div class="subject" onclick="openSubject('Physics')"><h3>⚛️ Physics</h3><p>View Chapters</p></div>
-<div class="subject" onclick="openSubject('Reasoning')"><h3>🧠 Reasoning</h3><p>View Chapters</p></div>
-<div class="subject" onclick="openSubject('Mathematics')"><h3>📐 Mathematics</h3><p>View Chapters</p></div>
-<div class="subject" onclick="openSubject('General Awareness')"><h3>🌍 General Awareness</h3><p>View Chapters</p></div>
+<div class="subject" onclick="openSubject('Physics')"><span class="ico" aria-hidden="true">⚛️</span><div><h3>Physics</h3><p>View chapters</p></div></div>
+<div class="subject" onclick="openSubject('Reasoning')"><span class="ico" aria-hidden="true">🧠</span><div><h3>Reasoning</h3><p>View chapters</p></div></div>
+<div class="subject" onclick="openSubject('Mathematics')"><span class="ico" aria-hidden="true">📐</span><div><h3>Mathematics</h3><p>View chapters</p></div></div>
+<div class="subject" onclick="openSubject('General Awareness')"><span class="ico" aria-hidden="true">🌍</span><div><h3>General Awareness</h3><p>View chapters</p></div></div>
 </div>
 </div>
 
@@ -135,15 +199,8 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
 <h2 id="testTitle"></h2>
 <div class="test-info"><strong id="questionCount"></strong><strong id="answeredCount"></strong></div>
 <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
-<div id="questionText" class="question"></div>
-<div id="questionMedia" class="question-media"></div>
-<div id="optionsBox"></div>
-<div id="feedbackBox" class="feedback hidden"></div>
-<button id="explanationBtn" class="explanation-btn hidden" onclick="toggleExplanation()">📖 Show Answer &amp; Explanation</button>
-<div id="explanationBox" class="explanation hidden"></div>
+<div id="questionsList"></div>
 <div class="test-buttons">
-<button id="previousBtn" onclick="previousQuestion()">Previous</button>
-<button id="nextBtn" onclick="nextQuestion()">Next</button>
 <button id="submitBtn" onclick="submitTest()" style="background:#15803d">Submit</button>
 </div>
 </div>
@@ -190,15 +247,7 @@ footer{text-align:center;padding:20px;color:#64748b;font-size:13px}
   <span class="social-icon facebook-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M13.5 20v-7h2.3l.4-2.7h-2.7V8.6c0-.8.3-1.3 1.4-1.3h1.4V4.9c-.3 0-1.1-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.6v1.9H8.4V13h2.3v7z" fill="#fff"/></svg></span><span>Inspire physics classes</span>
  </a>
 </footer>
-<style>
-.site-footer{width:100%;display:flex;align-items:center;justify-content:space-around;gap:12px;flex-wrap:wrap;padding:10px 8px 7px;background:#fff;color:#111;font-size:11px}
-.site-footer a{display:flex;align-items:center;gap:5px;color:#111;text-decoration:none;white-space:nowrap}
-.site-footer a:hover{text-decoration:underline}
-.social-icon{display:inline-flex;width:19px;height:19px;align-items:center;justify-content:center;flex:0 0 19px}
-.social-icon svg{width:100%;height:100%}
-.youtube-icon{color:#f00}.telegram-icon{color:#229ed9}.whatsapp-icon{color:#25d366}.facebook-icon{color:#1877f2}
-@media(max-width:520px){.site-footer{justify-content:space-between;gap:9px;padding:10px 7px;font-size:10px}.site-footer a{gap:4px}}
-</style>
+
 
 <script>
 /* LOGIN */
@@ -344,57 +393,63 @@ function addMedia(container,imagePath,svgCode,extraClass=""){
  }
  if(!imagePath&&!svgCode)container.innerHTML="";
 }
-function showQuestion(){
- const q=testQuestions[currentQuestion];
- document.getElementById("questionCount").innerText="Question "+(currentQuestion+1)+" / "+testQuestions.length;
- const answered=userAnswers.filter(a=>a!==null).length;
- document.getElementById("answeredCount").innerText="Answered: "+answered;
- document.getElementById("progressFill").style.width=((currentQuestion+1)/testQuestions.length*100)+"%";
- document.getElementById("questionText").innerText=q.question;
- addMedia(document.getElementById("questionMedia"),q.questionImage,q.questionSvg);
- const optionsBox=document.getElementById("optionsBox");optionsBox.innerHTML="";
- const selected=userAnswers[currentQuestion];
+function mediaEl(cls,img,svg){const d=document.createElement("div");d.className=cls;addMedia(d,img,svg);return d;}
+function optText(o){return (typeof o==="string")?o:(o.text||"");}
+function updateProgress(){
+ const total=testQuestions.length,answered=userAnswers.filter(a=>a!==null).length;
+ document.getElementById("questionCount").innerText=total+" Questions";
+ document.getElementById("answeredCount").innerText="Answered: "+answered+" / "+total;
+ document.getElementById("progressFill").style.width=(total?answered/total*100:0)+"%";
+}
+function buildQuestion(qi){
+ const q=testQuestions[qi],selected=userAnswers[qi];
+ const wrap=document.createElement("section");wrap.className="qitem";wrap.id="q"+qi;
+ const head=document.createElement("div");head.className="q-head";head.textContent="Question "+(qi+1)+" / "+testQuestions.length;
+ const qt=document.createElement("div");qt.className="question";qt.textContent=q.question;
+ wrap.append(head,qt);
+ if(q.questionImage||q.questionSvg)wrap.appendChild(mediaEl("question-media",q.questionImage,q.questionSvg));
  q.options.forEach((option,index)=>{
   const btn=document.createElement("button");btn.className="option";
   const opt=(typeof option==="string")?{text:option}:option;
   const label=document.createElement("span");label.className="option-content";
-  label.textContent=String.fromCharCode(65+index)+". "+(opt.text||"");btn.appendChild(label);
-  if(opt.image||opt.svg){const media=document.createElement("div");media.className="option-media";addMedia(media,opt.image,opt.svg);btn.appendChild(media);}
+  const letter=document.createElement("b");letter.className="opt-letter";letter.textContent=String.fromCharCode(65+index);
+  const txt=document.createElement("span");txt.textContent=opt.text||"";label.append(letter,txt);btn.appendChild(label);
+  if(opt.image||opt.svg){btn.appendChild(mediaEl("option-media",opt.image,opt.svg));}
   if(selected!==null){
    btn.disabled=true;
    if(index===q.answer)btn.classList.add("correct");
    if(index===selected&&selected!==q.answer)btn.classList.add("wrong");
   }
-  btn.onclick=()=>selectAnswer(index);optionsBox.appendChild(btn);
+  btn.onclick=()=>selectAnswer(qi,index);wrap.appendChild(btn);
  });
- const feedback=document.getElementById("feedbackBox");
- const explanationBtn=document.getElementById("explanationBtn");
- const explanationBox=document.getElementById("explanationBox");
- explanationBox.classList.add("hidden");
- explanationBtn.innerText="📖 Show Answer & Explanation";
  if(selected!==null){
-  if(selected===q.answer){feedback.innerText="✓ Correct Answer! Very Good.";feedback.className="feedback correct-feedback";}
-  else{const correct=q.options[q.answer];const correctText=(typeof correct==="string")?correct:(correct.text||"Diagram");feedback.innerText="✗ Wrong Answer! Correct Answer: "+String.fromCharCode(65+q.answer)+". "+correctText;feedback.className="feedback wrong-feedback";}
-  explanationBtn.classList.remove("hidden");
- }else{feedback.className="feedback hidden";explanationBtn.classList.add("hidden");}
- document.getElementById("previousBtn").disabled=currentQuestion===0;
- document.getElementById("nextBtn").disabled=currentQuestion===testQuestions.length-1;
+  const fb=document.createElement("div");
+  if(selected===q.answer){fb.textContent="✓ Correct Answer! Very Good.";fb.className="feedback correct-feedback";}
+  else{fb.textContent="✗ Wrong Answer! Correct Answer: "+String.fromCharCode(65+q.answer)+". "+(optText(q.options[q.answer])||"Diagram");fb.className="feedback wrong-feedback";}
+  const eb=document.createElement("button");eb.className="explanation-btn";eb.textContent="📖 Show Answer & Explanation";
+  const box=document.createElement("div");box.className="explanation hidden";
+  eb.onclick=()=>{
+   if(box.classList.contains("hidden")){
+    box.innerHTML="<strong>Correct Answer: "+String.fromCharCode(65+q.answer)+". "+optText(q.options[q.answer])+"</strong><br><br><strong>Explanation:</strong><br>"+q.explanation;
+    if(q.explanationImage||q.explanationSvg)box.appendChild(mediaEl("explanation-media",q.explanationImage,q.explanationSvg));
+    box.classList.remove("hidden");eb.textContent="Hide Explanation";
+   }else{box.classList.add("hidden");eb.textContent="📖 Show Answer & Explanation";}
+  };
+  wrap.append(fb,eb,box);
+ }
+ return wrap;
 }
-function selectAnswer(index){
- if(userAnswers[currentQuestion]!==null)return;
- userAnswers[currentQuestion]=index;showQuestion();
+function showQuestion(){
+ const list=document.getElementById("questionsList");list.innerHTML="";
+ testQuestions.forEach((q,i)=>list.appendChild(buildQuestion(i)));
+ updateProgress();window.scrollTo(0,0);
 }
-function toggleExplanation(){
- const box=document.getElementById("explanationBox"),btn=document.getElementById("explanationBtn"),q=testQuestions[currentQuestion];
- if(box.classList.contains("hidden")){
-  const correct=q.options[q.answer];const correctText=(typeof correct==="string")?correct:(correct.text||"");
-  box.innerHTML="<strong>Correct Answer: "+String.fromCharCode(65+q.answer)+". "+correctText+"</strong><br><br><strong>Explanation:</strong><br>"+q.explanation;
-  if(q.explanationImage||q.explanationSvg){const media=document.createElement("div");media.className="explanation-media";addMedia(media,q.explanationImage,q.explanationSvg);box.appendChild(media);}
-  box.classList.remove("hidden");btn.innerText="Hide Explanation";
- }else{box.classList.add("hidden");btn.innerText="📖 Show Answer & Explanation";}
+function selectAnswer(qi,index){
+ if(userAnswers[qi]!==null)return;
+ userAnswers[qi]=index;
+ document.getElementById("q"+qi).replaceWith(buildQuestion(qi));
+ updateProgress();
 }
-function nextQuestion(){if(currentQuestion<testQuestions.length-1){currentQuestion++;showQuestion();}}
-function previousQuestion(){if(currentQuestion>0){currentQuestion--;showQuestion();}}
 
 /* SUBMIT AND RESULT */
 function submitTest(){
@@ -502,61 +557,10 @@ window.onload=function(){
 };
 </script>
 
-<style id="inspire-orange-theme">
-/* Matching orange-red and yellow brand theme for all page content */
-body{background:#fff7f1;color:#3b241b}
-.container{background:transparent}
-.card,.dashboard-heading,.subject,#loginBox{border:1px solid #ffd0b8;box-shadow:0 3px 12px #b9381715}
-h2,.subject h3{color:#c93416}
-.dashboard-heading{background:linear-gradient(110deg,#e93412,#ff6500);color:#fff;padding:22px;border-radius:12px}
-.dashboard-heading h2,.dashboard-heading p{color:#fff}
-.dashboard-heading h2{margin-bottom:8px}
-.dashboard-actions button,button:not(.logout-btn){background:linear-gradient(90deg,#e93412,#ff6500);color:#fff;border:1px solid #d92c0d}
-button:not(.logout-btn):hover{background:linear-gradient(90deg,#c92b10,#ed4c00)}
-.subject{background:linear-gradient(145deg,#fff 0%,#fff0e6 100%)}
-.subject:hover{background:#ffe0cc}
-.chapter-btn{background:#ffe5d6!important;color:#b92c12!important;border:1px solid #ffb58e!important}
-.chapter-btn:hover{background:#ffd0b5!important}
-.progress-track{background:#ffe0cc}
-.progress-fill{background:linear-gradient(90deg,#e93412,#ff9b00)}
-#questionText,.question{color:#6e2717}
-.option,.option-btn,.answer-option{border-color:#ffc3a4}
-.site-footer{background:linear-gradient(90deg,#e93412,#ff5a00);color:#fff;border-top:2px solid #ffd21a}
-.site-footer a{color:#fff;font-weight:600}
-.site-footer a:hover{color:#fff000}
-@media(max-width:600px){
- .dashboard-heading{padding:17px}
- .card,.subject{border-radius:10px}
-}
-</style>
 
 
-<style id="inspire-option-color-fix">
-/* Clean, high-contrast answer options */
-button.option{
- background:#ffffff!important;
- color:#263238!important;
- border:1.5px solid #e7a184!important;
- box-shadow:0 1px 4px #6b2a1710;
-}
-button.option:not(:disabled):hover{
- background:#fff1e8!important;
- border-color:#e93412!important;
-}
-button.option.correct{
- background:#dcfce7!important;
- color:#166534!important;
- border:2px solid #16a34a!important;
-}
-button.option.wrong{
- background:#fee2e2!important;
- color:#991b1b!important;
- border:2px solid #dc2626!important;
-}
-button.option:disabled:not(.correct):not(.wrong){
- opacity:1;
-}
-</style>
+
+
 
 </body>
 </html>
