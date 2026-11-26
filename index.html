@@ -127,11 +127,115 @@ button:disabled{cursor:not-allowed;opacity:.4}
  .dashboard-actions button{width:100%}
  .question{font-size:18px}.site-footer{justify-content:space-between;font-size:11px}
 }
-.qitem{padding:22px 0;border-top:1px solid var(--line)}
-.qitem:first-child{border-top:none;padding-top:6px}
-.q-head{display:inline-block;font-size:12px;font-weight:700;color:var(--brand-d);background:var(--brand-t);padding:4px 10px;border-radius:99px;margin-bottom:12px}
-.test-buttons{margin-top:10px;padding-top:20px;border-top:2px solid var(--line)}
+/* full-screen test */
+#testBox{position:fixed;inset:0;z-index:100;margin:0;padding:0;border:none;border-radius:0;box-shadow:none;background:var(--bg);display:flex;flex-direction:column;overflow:hidden}
+.t-top{display:flex;align-items:center;gap:12px;background:var(--ink);padding:8px 20px;border-bottom:3px solid var(--brand);flex-shrink:0}
+.t-logo{width:38px;height:28px;object-fit:contain;background:#fff;border-radius:6px;padding:2px;flex-shrink:0}
+.t-brand{font-size:clamp(14px,1.5vw,19px);font-weight:800;letter-spacing:.3px;color:var(--sun);white-space:nowrap}
+.t-title{flex:1;text-align:right;color:#ffffffb3;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.t-exit{background:transparent;color:#fff;border:1px solid #ffffff55;padding:6px 14px;font-size:13px;border-radius:999px}
+.t-exit:hover{background:#ffffff1f}
+.t-info,.t-main,.test-buttons{width:100%;max-width:1040px;margin-inline:auto;padding-inline:20px;flex-shrink:0}
+.t-info .test-info{margin:10px 0 6px;font-size:13px}
+.t-info .progress-track{height:6px;margin-bottom:10px}
+.t-main{flex:1 1 auto;min-height:0;overflow-y:auto;padding-top:6px;padding-bottom:8px}
+#testBox .question{font-size:clamp(18px,2.1vw,27px);margin-bottom:12px}
+#testBox .option{margin:6px 0;padding:9px 14px;font-size:clamp(15px,1.5vw,19px);gap:10px}
+#testBox .opt-letter{width:28px;height:28px;font-size:13px}
+#testBox .feedback{margin-top:10px;padding:10px 14px}
+#testBox .explanation-btn{margin-top:10px;padding:10px 16px}
+#testBox .explanation{padding:12px 16px;margin-top:8px}
+#testBox .question-media img{max-height:30vh}
+.test-buttons{display:flex;gap:10px;margin-top:0;padding-top:8px;padding-bottom:10px}
+.test-buttons button{flex:1;padding:11px 16px}
+.t-social{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:clamp(14px,4vw,48px);background:var(--ink);border-top:3px solid var(--sun);padding:9px 12px;flex-shrink:0}
+.t-social a{display:flex;align-items:center;gap:6px;color:#fff;text-decoration:none;white-space:nowrap;font-size:13px;font-weight:600}
+.t-social a:hover{color:var(--sun)}
+@media(max-width:640px){.t-title{display:none}.t-brand{flex:1}.t-social a span:last-child{display:none}.t-info,.t-main,.test-buttons{padding-inline:12px}}
+@media(max-height:560px){.t-info .test-info{display:none}.t-top{padding:5px 14px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ===== QUESTION TABLE (right side) ===== */
+.t-info,.test-buttons{max-width:1240px}
+.t-body{flex:1 1 auto;min-height:0;display:flex;align-items:stretch;gap:16px;width:100%;max-width:1240px;margin-inline:auto;padding-inline:20px}
+.t-body .t-main{flex:1 1 0;min-width:0;width:auto;max-width:none;margin:0;padding-inline:0}
+.t-side{flex:0 0 232px;align-self:flex-start;max-height:100%;display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:6px;box-shadow:0 1px 2px #171e3a0d,0 6px 18px #171e3a0a}
+.t-side-head{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--ink)}
+.t-side-head span{font-size:12px;font-weight:700;color:var(--ok);background:var(--okbg);padding:2px 9px;border-radius:99px}
+.qn-legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;font-weight:600;color:var(--muted)}
+.qn-legend span{display:inline-flex;align-items:center;gap:5px}
+.qn-dot{display:inline-block;width:11px;height:11px;border-radius:4px;border:1.5px solid var(--line)}
+.d-answered{background:var(--ok);border-color:var(--ok)}
+.d-unanswered{background:#eef0f6}
+.d-current{background:var(--brand);border-color:var(--brand)}
+/* 5 columns x 10 rows = 50 numbers visible; more than 50 -> table scrolls */
+.qn-grid{position:relative;display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:34px;gap:6px;padding:2px;flex:0 1 auto;min-height:0;max-height:calc(34px*10 + 6px*9 + 4px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.qn-cell{display:grid;place-items:center;padding:0;border-radius:8px;font-size:13px;font-weight:700;line-height:1;background:#eef0f6;color:var(--ink2);border:1.5px solid var(--line)}
+.qn-cell:hover{background:var(--brand-t);border-color:var(--brand)}
+.qn-cell.answered{background:var(--ok);border-color:var(--ok);color:#fff}
+.qn-cell.answered:hover{background:#0e6b4c;border-color:#0e6b4c}
+.qn-cell.current,.qn-cell.current:hover{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--sun)}
+@media(max-width:640px){
+ .t-body{padding-inline:12px;gap:10px}
+ .t-side{flex-basis:112px;padding:8px}
+ .qn-grid{grid-template-columns:repeat(3,1fr);gap:5px}
+}
+
+/* ===== MOBILE TEST: landscape + 16:9 page ===== */
+body.mobile-test #testBox{inset:auto;top:50%;left:50%;
+ width:min(100vw,177.78vh);height:min(100vh,56.25vw);
+ width:min(100vw,177.78dvh);height:min(100dvh,56.25vw);
+ transform:translate(-50%,-50%);box-shadow:0 0 0 200vmax #000}
+/* phone still in portrait (iPhone / lock not allowed): rotate the 16:9 page by 90deg */
+body.mobile-test.force-rotate #testBox{
+ width:min(100vh,177.78vw);height:min(100vw,56.25vh);
+ width:min(100dvh,177.78vw);height:min(100vw,56.25dvh);
+ transform:translate(-50%,-50%) rotate(90deg)}
+/* compact layout so everything fits inside the small 16:9 page */
+body.mobile-test #testBox .t-top{padding:4px 10px;gap:8px}
+body.mobile-test #testBox .t-logo{width:30px;height:22px}
+body.mobile-test #testBox .t-brand{font-size:12px;flex:1}
+body.mobile-test #testBox .t-title{display:none}
+body.mobile-test #testBox .t-exit{padding:4px 10px;font-size:11px}
+body.mobile-test #testBox .t-info{padding-inline:10px}
+body.mobile-test #testBox .t-info .test-info{display:none}
+body.mobile-test #testBox .t-info .progress-track{height:4px;margin:4px 0}
+body.mobile-test #testBox .t-body{padding-inline:10px;gap:8px}
+body.mobile-test #testBox .question{font-size:14px;line-height:1.4;margin-bottom:8px}
+body.mobile-test #testBox .option{font-size:12.5px;padding:5px 9px;margin:4px 0;gap:8px}
+body.mobile-test #testBox .opt-letter{width:22px;height:22px;font-size:11px;border-radius:6px}
+body.mobile-test #testBox .feedback{font-size:12px;padding:6px 10px;margin-top:6px}
+body.mobile-test #testBox .explanation-btn{font-size:12px;padding:6px 12px;margin-top:6px}
+body.mobile-test #testBox .explanation{font-size:12.5px;line-height:1.5;padding:8px 12px}
+body.mobile-test #testBox .test-buttons{padding:4px 10px;gap:8px}
+body.mobile-test #testBox .test-buttons button{padding:6px 10px;font-size:12px}
+body.mobile-test #testBox .t-social{padding:4px 8px}
+body.mobile-test #testBox .t-social a{font-size:11px}
+body.mobile-test #testBox .t-social a span:last-child{display:none}
+body.mobile-test #testBox .social-icon{width:16px;height:16px;flex-basis:16px}
+body.mobile-test #testBox .t-side{flex:0 0 128px;padding:7px;gap:6px;margin-top:2px}
+body.mobile-test #testBox .t-side-head{font-size:12px}
+body.mobile-test #testBox .t-side-head span{font-size:10px;padding:1px 7px}
+body.mobile-test #testBox .qn-legend{flex-direction:column;gap:2px;font-size:10px}
+body.mobile-test #testBox .qn-dot{width:9px;height:9px}
+body.mobile-test #testBox .qn-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:25px;gap:4px;max-height:calc(25px*10 + 4px*9 + 4px)}
+body.mobile-test #testBox .qn-cell{font-size:11px;border-radius:6px}
+
+/* ===== PAUSE / RESUME ===== */
+.t-pause{background:transparent;color:#fff;border:1px solid #ffffff55;padding:6px 14px;font-size:13px;border-radius:999px}
+.t-pause:hover{background:#ffffff1f}
+body.mobile-test #testBox .t-pause{padding:4px 10px;font-size:11px}
+.chapter-btn .paused-badge{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:99px;background:var(--sun);color:var(--ink);font-size:11px;font-weight:800;vertical-align:middle}
+.modal-overlay{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:16px;background:#171923b3}
+.modal-card{width:100%;max-width:400px;background:#fff;border-radius:var(--r);padding:24px 22px;text-align:center;box-shadow:0 20px 60px #0006;border-top:5px solid var(--brand)}
+.modal-card h3{font-size:20px;font-weight:800;margin-bottom:6px;color:var(--ink)}
+.modal-card p{color:var(--muted);font-size:14px;margin-bottom:16px;line-height:1.6}
+.modal-card button{display:block;width:100%;margin-top:10px}
+.modal-card .modal-alt{background:var(--ink2)}
+.modal-card .modal-alt:hover{background:var(--ink)}
+.modal-card .modal-cancel{background:#fff;color:var(--muted);border:1.5px solid var(--line)}
+.modal-card .modal-cancel:hover{background:var(--bg)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:400;background:var(--ink);color:#fff;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:600;box-shadow:0 8px 24px #0004;border:1px solid var(--sun);max-width:90vw;text-align:center}
 </style>
 </head>
 <body>
@@ -194,15 +298,64 @@ button:disabled{cursor:not-allowed;opacity:.4}
 <button class="back-btn" onclick="backToSubjects()">Back to Subjects</button>
 </div>
 
-<!-- TEST SCREEN -->
-<div id="testBox" class="card hidden">
-<h2 id="testTitle"></h2>
-<div class="test-info"><strong id="questionCount"></strong><strong id="answeredCount"></strong></div>
-<div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
-<div id="questionsList"></div>
-<div class="test-buttons">
-<button id="submitBtn" onclick="submitTest()" style="background:#15803d">Submit</button>
+<!-- RESUME / NEW TEST DIALOG -->
+<div id="resumeModal" class="modal-overlay hidden">
+ <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="rmTitle">
+  <h3 id="rmTitle">Test paused hai</h3>
+  <p id="rmInfo"></p>
+  <button id="rmResume">▶ Resume Test</button>
+  <button id="rmNew" class="modal-alt">🔄 New Test</button>
+  <button id="rmCancel" class="modal-cancel">Cancel</button>
+ </div>
 </div>
+<div id="toast" class="toast hidden"></div>
+
+<!-- TEST SCREEN (full screen) -->
+<div id="testBox" class="card hidden">
+ <div class="t-top">
+  <img id="testLogo" class="t-logo" alt="Inspire Physics Classes">
+  <span class="t-brand">INSPIRE PHYSICS CLASSES</span>
+  <span id="testTitle" class="t-title"></span>
+  <button class="t-pause" onclick="pauseTest()">⏸ Pause</button>
+  <button class="t-exit" onclick="exitTest()">✕ Exit</button>
+ </div>
+ <div class="t-info">
+  <div class="test-info"><strong id="questionCount"></strong><strong id="answeredCount"></strong></div>
+  <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+ </div>
+ <div class="t-body">
+ <div class="t-main">
+  <div id="questionText" class="question"></div>
+  <div id="questionMedia" class="question-media"></div>
+  <div id="optionsBox"></div>
+  <div id="feedbackBox" class="feedback hidden"></div>
+  <button id="explanationBtn" class="explanation-btn hidden" onclick="toggleExplanation()">📖 Show Answer &amp; Explanation</button>
+  <div id="explanationBox" class="explanation hidden"></div>
+ </div>
+ <aside class="t-side" aria-label="Question navigator">
+  <div class="t-side-head"><strong>Questions</strong><span id="qnAnswered">0/0</span></div>
+  <div class="qn-legend">
+   <span><i class="qn-dot d-answered"></i>Answered</span>
+   <span><i class="qn-dot d-unanswered"></i>Not answered</span>
+   <span><i class="qn-dot d-current"></i>Current</span>
+  </div>
+  <div id="qnGrid" class="qn-grid"></div>
+ </aside>
+ </div>
+ <div class="test-buttons">
+  <button id="previousBtn" onclick="previousQuestion()">Previous</button>
+  <button id="nextBtn" onclick="nextQuestion()">Next</button>
+  <button id="submitBtn" onclick="submitTest()" style="background:#15803d">Submit</button>
+ </div>
+ <div class="t-social" aria-label="Social media links"><a href="https://youtube.com/@inspirephysicsclasses6008?si=SUfbiMOGOgY8lX_r" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+  <span class="social-icon youtube-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="5" fill="currentColor"/><path d="M10 8l6 4-6 4z" fill="#fff"/></svg></span><span>Inspire physics classes</span>
+ </a><a href="https://wa.me/917976330049" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+  <span class="social-icon whatsapp-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M7.2 17.5l.7-2.6a6.3 6.3 0 1 1 2.2 2.1z" fill="none" stroke="#fff" stroke-width="1.4"/><path d="M9.2 8.7c.3-.5.7-.4.9 0l.7 1.4c.1.3 0 .5-.3.8l-.4.4c.5 1 1.2 1.7 2.3 2.2l.5-.6c.2-.3.5-.3.8-.2l1.3.6c.4.2.4.5.3.8-.3.8-1 1.2-1.8 1.2-2.2-.1-5.5-3-5.6-5.1 0-.7.5-1.2 1.3-1.5z" fill="#fff"/></svg></span><span>7976330049</span>
+ </a><a href="https://telegram.me/IPclasses" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+  <span class="social-icon telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M5 11.5l13-5-3.1 12-4.1-3.2-2.2 2 .4-4.1 7-4.5-8.2 3.6z" fill="#fff"/></svg></span><span>IP classes</span>
+ </a><a href="https://www.facebook.com/inspirephysicsclasse" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+  <span class="social-icon facebook-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="currentColor"/><path d="M13.5 20v-7h2.3l.4-2.7h-2.7V8.6c0-.8.3-1.3 1.4-1.3h1.4V4.9c-.3 0-1.1-.1-2.1-.1-2.1 0-3.5 1.3-3.5 3.6v1.9H8.4V13h2.3v7z" fill="#fff"/></svg></span><span>Inspire physics classes</span>
+ </a></div>
 </div>
 
 <!-- RESULT -->
@@ -360,6 +513,7 @@ function openSubject(subject){
  chapters[subject].forEach(chapter=>{
   const btn=document.createElement("button");
   btn.innerText=chapter;btn.className="chapter-btn";
+   if(getPaused(subject,chapter)){const bd=document.createElement("span");bd.className="paused-badge";bd.textContent="⏸ Paused";btn.appendChild(bd);}
   btn.onclick=()=>startTest(subject,chapter);
   list.appendChild(btn);
  });
@@ -369,10 +523,21 @@ function openSubject(subject){
 function startTest(subject,chapter){
  const key=subject+"|"+chapter;
  if(!questionBank[key]){alert("Questions for this chapter will be added soon!");return;}
+ const saved=getPaused(subject,chapter);
+ if(saved&&saved.total===questionBank[key].length){showResumeDialog(subject,chapter,saved);return;}
+ if(saved)clearPaused(subject,chapter);
+ beginTest(subject,chapter,null);
+}
+function beginTest(subject,chapter,saved){
+ const key=subject+"|"+chapter;
  currentSubject=subject;currentChapter=chapter;
  testQuestions=questionBank[key];currentQuestion=0;
  userAnswers=new Array(testQuestions.length).fill(null);
- hideAll();document.getElementById("testBox").classList.remove("hidden");
+ if(saved){
+  userAnswers=saved.answers.slice();
+  currentQuestion=Math.min(Math.max(Number(saved.current)||0,0),testQuestions.length-1);
+ }
+ hideAll();document.getElementById("testBox").classList.remove("hidden");enterTestFullscreen();
  document.getElementById("testTitle").innerText=subject+" - "+chapter;
  showQuestion();
 }
@@ -393,63 +558,58 @@ function addMedia(container,imagePath,svgCode,extraClass=""){
  }
  if(!imagePath&&!svgCode)container.innerHTML="";
 }
-function mediaEl(cls,img,svg){const d=document.createElement("div");d.className=cls;addMedia(d,img,svg);return d;}
-function optText(o){return (typeof o==="string")?o:(o.text||"");}
-function updateProgress(){
- const total=testQuestions.length,answered=userAnswers.filter(a=>a!==null).length;
- document.getElementById("questionCount").innerText=total+" Questions";
- document.getElementById("answeredCount").innerText="Answered: "+answered+" / "+total;
- document.getElementById("progressFill").style.width=(total?answered/total*100:0)+"%";
-}
-function buildQuestion(qi){
- const q=testQuestions[qi],selected=userAnswers[qi];
- const wrap=document.createElement("section");wrap.className="qitem";wrap.id="q"+qi;
- const head=document.createElement("div");head.className="q-head";head.textContent="Question "+(qi+1)+" / "+testQuestions.length;
- const qt=document.createElement("div");qt.className="question";qt.textContent=q.question;
- wrap.append(head,qt);
- if(q.questionImage||q.questionSvg)wrap.appendChild(mediaEl("question-media",q.questionImage,q.questionSvg));
+function showQuestion(){
+ const q=testQuestions[currentQuestion];
+ document.getElementById("questionCount").innerText="Question "+(currentQuestion+1)+" / "+testQuestions.length;
+ const answered=userAnswers.filter(a=>a!==null).length;
+ document.getElementById("answeredCount").innerText="Answered: "+answered;
+ renderQTable();
+ document.getElementById("progressFill").style.width=((currentQuestion+1)/testQuestions.length*100)+"%";
+ document.getElementById("questionText").innerText=q.question;
+ addMedia(document.getElementById("questionMedia"),q.questionImage,q.questionSvg);
+ const optionsBox=document.getElementById("optionsBox");optionsBox.innerHTML="";
+ const selected=userAnswers[currentQuestion];
  q.options.forEach((option,index)=>{
   const btn=document.createElement("button");btn.className="option";
   const opt=(typeof option==="string")?{text:option}:option;
   const label=document.createElement("span");label.className="option-content";
-  const letter=document.createElement("b");letter.className="opt-letter";letter.textContent=String.fromCharCode(65+index);
-  const txt=document.createElement("span");txt.textContent=opt.text||"";label.append(letter,txt);btn.appendChild(label);
-  if(opt.image||opt.svg){btn.appendChild(mediaEl("option-media",opt.image,opt.svg));}
+  const letter=document.createElement("b");letter.className="opt-letter";letter.textContent=String.fromCharCode(65+index);const txt=document.createElement("span");txt.textContent=opt.text||"";label.append(letter,txt);btn.appendChild(label);
+  if(opt.image||opt.svg){const media=document.createElement("div");media.className="option-media";addMedia(media,opt.image,opt.svg);btn.appendChild(media);}
   if(selected!==null){
    btn.disabled=true;
    if(index===q.answer)btn.classList.add("correct");
    if(index===selected&&selected!==q.answer)btn.classList.add("wrong");
   }
-  btn.onclick=()=>selectAnswer(qi,index);wrap.appendChild(btn);
+  btn.onclick=()=>selectAnswer(index);optionsBox.appendChild(btn);
  });
+ const feedback=document.getElementById("feedbackBox");
+ const explanationBtn=document.getElementById("explanationBtn");
+ const explanationBox=document.getElementById("explanationBox");
+ explanationBox.classList.add("hidden");
+ explanationBtn.innerText="📖 Show Answer & Explanation";
  if(selected!==null){
-  const fb=document.createElement("div");
-  if(selected===q.answer){fb.textContent="✓ Correct Answer! Very Good.";fb.className="feedback correct-feedback";}
-  else{fb.textContent="✗ Wrong Answer! Correct Answer: "+String.fromCharCode(65+q.answer)+". "+(optText(q.options[q.answer])||"Diagram");fb.className="feedback wrong-feedback";}
-  const eb=document.createElement("button");eb.className="explanation-btn";eb.textContent="📖 Show Answer & Explanation";
-  const box=document.createElement("div");box.className="explanation hidden";
-  eb.onclick=()=>{
-   if(box.classList.contains("hidden")){
-    box.innerHTML="<strong>Correct Answer: "+String.fromCharCode(65+q.answer)+". "+optText(q.options[q.answer])+"</strong><br><br><strong>Explanation:</strong><br>"+q.explanation;
-    if(q.explanationImage||q.explanationSvg)box.appendChild(mediaEl("explanation-media",q.explanationImage,q.explanationSvg));
-    box.classList.remove("hidden");eb.textContent="Hide Explanation";
-   }else{box.classList.add("hidden");eb.textContent="📖 Show Answer & Explanation";}
-  };
-  wrap.append(fb,eb,box);
- }
- return wrap;
+  if(selected===q.answer){feedback.innerText="✓ Correct Answer! Very Good.";feedback.className="feedback correct-feedback";}
+  else{const correct=q.options[q.answer];const correctText=(typeof correct==="string")?correct:(correct.text||"Diagram");feedback.innerText="✗ Wrong Answer! Correct Answer: "+String.fromCharCode(65+q.answer)+". "+correctText;feedback.className="feedback wrong-feedback";}
+  explanationBtn.classList.remove("hidden");
+ }else{feedback.className="feedback hidden";explanationBtn.classList.add("hidden");}
+ document.getElementById("previousBtn").disabled=currentQuestion===0;
+ document.getElementById("nextBtn").disabled=currentQuestion===testQuestions.length-1;
 }
-function showQuestion(){
- const list=document.getElementById("questionsList");list.innerHTML="";
- testQuestions.forEach((q,i)=>list.appendChild(buildQuestion(i)));
- updateProgress();window.scrollTo(0,0);
+function selectAnswer(index){
+ if(userAnswers[currentQuestion]!==null)return;
+ userAnswers[currentQuestion]=index;showQuestion();
 }
-function selectAnswer(qi,index){
- if(userAnswers[qi]!==null)return;
- userAnswers[qi]=index;
- document.getElementById("q"+qi).replaceWith(buildQuestion(qi));
- updateProgress();
+function toggleExplanation(){
+ const box=document.getElementById("explanationBox"),btn=document.getElementById("explanationBtn"),q=testQuestions[currentQuestion];
+ if(box.classList.contains("hidden")){
+  const correct=q.options[q.answer];const correctText=(typeof correct==="string")?correct:(correct.text||"");
+  box.innerHTML="<strong>Correct Answer: "+String.fromCharCode(65+q.answer)+". "+correctText+"</strong><br><br><strong>Explanation:</strong><br>"+q.explanation;
+  if(q.explanationImage||q.explanationSvg){const media=document.createElement("div");media.className="explanation-media";addMedia(media,q.explanationImage,q.explanationSvg);box.appendChild(media);}
+  box.classList.remove("hidden");btn.innerText="Hide Explanation";
+ }else{box.classList.add("hidden");btn.innerText="📖 Show Answer & Explanation";}
 }
+function nextQuestion(){if(currentQuestion<testQuestions.length-1){currentQuestion++;showQuestion();}}
+function previousQuestion(){if(currentQuestion>0){currentQuestion--;showQuestion();}}
 
 /* SUBMIT AND RESULT */
 function submitTest(){
@@ -459,6 +619,7 @@ function submitTest(){
  calculateResult();
 }
 function calculateResult(){
+ clearPaused(currentSubject,currentChapter);
  let correct=0,wrong=0,skipped=0;
  testQuestions.forEach((q,i)=>{
   if(userAnswers[i]===null)skipped++;
@@ -542,11 +703,129 @@ function viewHistoryResult(index){
  document.getElementById("historyDetailDate").innerText=item.date;
 }
 
+/* PAUSE / RESUME */
+function pausedKey(subject,chapter){
+ const u=(localStorage.getItem("inspire_username")||"").trim().toLowerCase();
+ return "inspire_paused_"+encodeURIComponent(u||"guest")+"_"+encodeURIComponent(subject+"|"+chapter);
+}
+function getPaused(subject,chapter){
+ try{
+  const d=JSON.parse(localStorage.getItem(pausedKey(subject,chapter))||"null");
+  if(d&&Array.isArray(d.answers)&&d.answers.length===d.total)return d;
+ }catch(err){}
+ return null;
+}
+function clearPaused(subject,chapter){try{localStorage.removeItem(pausedKey(subject,chapter));}catch(err){}}
+function showToast(msg){
+ const t=document.getElementById("toast");t.innerText=msg;t.classList.remove("hidden");
+ clearTimeout(showToast._t);showToast._t=setTimeout(()=>t.classList.add("hidden"),3200);
+}
+function pauseTest(){
+ const subject=currentSubject,chapter=currentChapter;
+ try{
+  localStorage.setItem(pausedKey(subject,chapter),JSON.stringify({
+   answers:userAnswers,current:currentQuestion,total:testQuestions.length,date:new Date().toLocaleString()
+  }));
+ }catch(err){alert("Test pause nahi ho paya (storage full ya blocked).");return;}
+ openSubject(subject);
+ showToast("⏸ Test paused. Isi chapter ko dobara khologe to Resume ka option milega.");
+}
+function showResumeDialog(subject,chapter,saved){
+ const done=saved.answers.filter(a=>a!==null).length;
+ document.getElementById("rmTitle").innerText=chapter;
+ document.getElementById("rmInfo").innerText="Aapka test paused hai.\nAnswered: "+done+" / "+saved.total+"  |  Question "+((Number(saved.current)||0)+1)+" par ruke the.\nSaved: "+saved.date;
+ document.getElementById("rmInfo").style.whiteSpace="pre-line";
+ const modal=document.getElementById("resumeModal");modal.classList.remove("hidden");
+ const close=()=>modal.classList.add("hidden");
+ document.getElementById("rmResume").onclick=()=>{close();clearPaused(subject,chapter);beginTest(subject,chapter,saved);};
+ document.getElementById("rmNew").onclick=()=>{close();clearPaused(subject,chapter);beginTest(subject,chapter,null);};
+ document.getElementById("rmCancel").onclick=close;
+}
+
+/* QUESTION TABLE */
+function renderQTable(){
+ const grid=document.getElementById("qnGrid");if(!grid)return;
+ const keep=grid.scrollTop;grid.innerHTML="";
+ userAnswers.forEach((a,i)=>{
+  const b=document.createElement("button");b.type="button";
+  const done=a!==null,cur=i===currentQuestion;
+  b.className="qn-cell"+(done?" answered":"")+(cur?" current":"");
+  b.textContent=i+1;
+  b.setAttribute("aria-label","Question "+(i+1)+(done?" answered":" not answered")+(cur?" current":""));
+  b.onclick=()=>goToQuestion(i);
+  grid.appendChild(b);
+ });
+ grid.scrollTop=keep;
+ const cur=grid.children[currentQuestion];
+ if(cur){
+  const top=cur.offsetTop,bottom=top+cur.offsetHeight;
+  if(top<grid.scrollTop)grid.scrollTop=Math.max(0,top-4);
+  else if(bottom>grid.scrollTop+grid.clientHeight)grid.scrollTop=bottom-grid.clientHeight+4;
+ }
+ const done=userAnswers.filter(a=>a!==null).length;
+ document.getElementById("qnAnswered").innerText=done+"/"+userAnswers.length;
+}
+function goToQuestion(i){
+ if(i<0||i>=testQuestions.length)return;
+ currentQuestion=i;showQuestion();
+}
+
+/* FULL SCREEN TEST (mobile = landscape + 16:9) */
+function isMobileDevice(){
+ try{return window.matchMedia("(hover:none) and (pointer:coarse)").matches&&Math.min(screen.width,screen.height)<=820;}
+ catch(err){return false;}
+}
+function updateTestOrientation(){
+ const b=document.body;
+ if(!b.classList.contains("mobile-test")){b.classList.remove("force-rotate");return;}
+ /* phone still portrait -> rotate the 16:9 page so it looks landscape */
+ b.classList.toggle("force-rotate",window.innerHeight>window.innerWidth);
+}
+window.addEventListener("resize",updateTestOrientation);
+window.addEventListener("orientationchange",()=>setTimeout(updateTestOrientation,200));
+function enterTestFullscreen(){
+ document.body.style.overflow="hidden";
+ const logo=document.querySelector(".brand-logo");
+ if(logo)document.getElementById("testLogo").src=logo.src;
+ const mobile=isMobileDevice();
+ document.body.classList.toggle("mobile-test",mobile);
+ updateTestOrientation();
+ let p=null;
+ try{
+  const el=document.documentElement;
+  const req=el.requestFullscreen||el.webkitRequestFullscreen;
+  if(req){p=req.call(el);if(p&&p.catch)p.catch(()=>{});}
+ }catch(err){}
+ if(mobile){
+  const lock=()=>{
+   try{
+    const o=screen.orientation;
+    if(o&&o.lock)o.lock("landscape").then(updateTestOrientation).catch(updateTestOrientation);
+   }catch(err){}
+  };
+  if(p&&p.then)p.then(lock,lock);else lock();
+ }
+}
+function leaveTestFullscreen(){
+ document.body.style.overflow="";
+ document.body.classList.remove("mobile-test","force-rotate");
+ try{if(screen.orientation&&screen.orientation.unlock)screen.orientation.unlock();}catch(err){}
+ try{
+  if(document.fullscreenElement&&document.exitFullscreen){document.exitFullscreen().catch(()=>{});}
+  else if(document.webkitFullscreenElement&&document.webkitExitFullscreen){document.webkitExitFullscreen();}
+ }catch(err){}
+}
+function exitTest(){
+ if(!confirm("Exit the test? Your answers will not be saved."))return;
+ openSubject(currentSubject);
+}
+
 /* NAVIGATION */
 function restartTest(){startTest(currentSubject,currentChapter);}
 function backToSubjects(){showDashboard(localStorage.getItem("inspire_username"));}
 function backToDashboard(){showDashboard(localStorage.getItem("inspire_username"));}
 function hideAll(){
+ leaveTestFullscreen();
  ["loginBox","dashboard","progressBox","chapterBox","testBox","resultBox","historyDetailBox"].forEach(id=>{
   document.getElementById(id).classList.add("hidden");
  });
